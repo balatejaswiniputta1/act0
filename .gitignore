@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+.airflow/
+logs/
+mlruns/
+data/raw/*.csv
+data/interim/*.csv
+data/processed/*.npz
+models/*.pt
+reports/*.json
+.dvc/cache/
+.ipynb_checkpoints/

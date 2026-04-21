@@ -1,0 +1,43 @@
+stages:
+  ingest:
+    cmd: python -m src.data_ingestion
+    deps:
+      - src/data_ingestion.py
+      - configs/stations.yaml
+      - params.yaml
+    outs:
+      - data/raw/weather_raw.csv
+
+  preprocess:
+    cmd: python -m src.preprocess
+    deps:
+      - src/preprocess.py
+      - src/graph.py
+      - data/raw/weather_raw.csv
+      - configs/stations.yaml
+      - params.yaml
+    outs:
+      - data/processed/dataset.npz
+      - data/processed/scaler.joblib
+
+  train:
+    cmd: python -m src.train
+    deps:
+      - src/train.py
+      - src/model.py
+      - src/dataset.py
+      - data/processed/dataset.npz
+      - params.yaml
+    outs:
+      - models/best_model.pt
+
+  evaluate:
+    cmd: python -m src.evaluate
+    deps:
+      - src/evaluate.py
+      - src/model.py
+      - models/best_model.pt
+      - data/processed/dataset.npz
+      - params.yaml
+    outs:
+      - reports/metrics.json

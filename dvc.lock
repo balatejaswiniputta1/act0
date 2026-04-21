@@ -1,0 +1,110 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: python -m src.data_ingestion
+    deps:
+    - path: configs/stations.yaml
+      hash: md5
+      md5: 55a51e49a62b4edb458e01e25c07645e
+      size: 568
+    - path: params.yaml
+      hash: md5
+      md5: 7c09cd20d6034978f6d49b07e0a774ca
+      size: 561
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: e68a7fb89503df730cf8616996b7beb0
+      size: 1841
+    outs:
+    - path: data/raw/weather_raw.csv
+      hash: md5
+      md5: b8c63add80f543c52abac2890cf7009a
+      size: 1234673
+  preprocess:
+    cmd: python -m src.preprocess
+    deps:
+    - path: configs/stations.yaml
+      hash: md5
+      md5: 55a51e49a62b4edb458e01e25c07645e
+      size: 568
+    - path: data/raw/weather_raw.csv
+      hash: md5
+      md5: b8c63add80f543c52abac2890cf7009a
+      size: 1234673
+    - path: params.yaml
+      hash: md5
+      md5: 7c09cd20d6034978f6d49b07e0a774ca
+      size: 561
+    - path: src/graph.py
+      hash: md5
+      md5: 277462579c6ff4d576575fd8bfe87485
+      size: 1407
+    - path: src/preprocess.py
+      hash: md5
+      md5: 7d91ee65754aa89416131d94d9a871bf
+      size: 2834
+    outs:
+    - path: data/processed/dataset.npz
+      hash: md5
+      md5: 1e2583e66ec848cbd1528af951da0bf9
+      size: 291169
+    - path: data/processed/scaler.joblib
+      hash: md5
+      md5: 6ffd0d267e09490495df58995783d3a0
+      size: 719
+  train:
+    cmd: python -m src.train
+    deps:
+    - path: data/processed/dataset.npz
+      hash: md5
+      md5: 1e2583e66ec848cbd1528af951da0bf9
+      size: 291169
+    - path: params.yaml
+      hash: md5
+      md5: 7c09cd20d6034978f6d49b07e0a774ca
+      size: 561
+    - path: src/dataset.py
+      hash: md5
+      md5: cd250a8a5fdf2db4cd387e0a71ed0ed3
+      size: 451
+    - path: src/model.py
+      hash: md5
+      md5: 535387d95e118ee2c9057980ff9cbbc7
+      size: 2347
+    - path: src/train.py
+      hash: md5
+      md5: d105b695afab23daac2cf77f4324f48f
+      size: 3629
+    outs:
+    - path: models/best_model.pt
+      hash: md5
+      md5: 149f90ad8c191035e99c80f892681b31
+      size: 157794
+  evaluate:
+    cmd: python -m src.evaluate
+    deps:
+    - path: data/processed/dataset.npz
+      hash: md5
+      md5: 1e2583e66ec848cbd1528af951da0bf9
+      size: 291169
+    - path: models/best_model.pt
+      hash: md5
+      md5: 149f90ad8c191035e99c80f892681b31
+      size: 157794
+    - path: params.yaml
+      hash: md5
+      md5: 7c09cd20d6034978f6d49b07e0a774ca
+      size: 561
+    - path: src/evaluate.py
+      hash: md5
+      md5: bc94c580c77f8f378e8257e512d77b1f
+      size: 2190
+    - path: src/model.py
+      hash: md5
+      md5: 535387d95e118ee2c9057980ff9cbbc7
+      size: 2347
+    outs:
+    - path: reports/metrics.json
+      hash: md5
+      md5: abba154c64b3f26c3e5c300c09c2c528
+      size: 493
