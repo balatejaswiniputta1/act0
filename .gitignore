@@ -12,3 +12,54 @@ models/*.pt
 reports/*.json
 .dvc/cache/
 .ipynb_checkpoints/
+# --------------------
+# Python
+# --------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+airflow_venv/
+
+# --------------------
+# DVC
+# --------------------
+.dvc/cache/
+.dvc/tmp/
+.dvc/config.local
+
+# --------------------
+# Airflow
+# --------------------
+airflow.db
+airflow-webserver.pid
+logs/
+*.log
+
+# --------------------
+# Env / secrets
+# --------------------
+.env
+.env.*
+*.env
+.airflow_wsl_venv/
+# --------------------
+# Jupyter / misc
+# --------------------
+.ipynb_checkpoints/
+
+# --------------------
+# OS / IDE
+# --------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+.airflow_venv/

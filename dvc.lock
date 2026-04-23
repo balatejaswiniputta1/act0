@@ -9,8 +9,8 @@ stages:
       size: 568
     - path: params.yaml
       hash: md5
-      md5: 7c09cd20d6034978f6d49b07e0a774ca
-      size: 561
+      md5: c56d200e40a7f32f432e5394ab16ec6c
+      size: 943
     - path: src/data_ingestion.py
       hash: md5
       md5: e68a7fb89503df730cf8616996b7beb0
@@ -18,8 +18,8 @@ stages:
     outs:
     - path: data/raw/weather_raw.csv
       hash: md5
-      md5: b8c63add80f543c52abac2890cf7009a
-      size: 1234673
+      md5: 3431c395c9b129ecced558c1e32399e8
+      size: 6189940
   preprocess:
     cmd: python -m src.preprocess
     deps:
@@ -29,82 +29,174 @@ stages:
       size: 568
     - path: data/raw/weather_raw.csv
       hash: md5
-      md5: b8c63add80f543c52abac2890cf7009a
-      size: 1234673
+      md5: 3431c395c9b129ecced558c1e32399e8
+      size: 6189940
     - path: params.yaml
       hash: md5
-      md5: 7c09cd20d6034978f6d49b07e0a774ca
-      size: 561
+      md5: c56d200e40a7f32f432e5394ab16ec6c
+      size: 943
     - path: src/graph.py
       hash: md5
-      md5: 277462579c6ff4d576575fd8bfe87485
-      size: 1407
+      md5: 8c6d3e710d5ff3b7f9f4146f62f74869
+      size: 2747
     - path: src/preprocess.py
       hash: md5
-      md5: 7d91ee65754aa89416131d94d9a871bf
-      size: 2834
+      md5: 20883da6fdb6798c6aa33737d663427f
+      size: 5378
     outs:
     - path: data/processed/dataset.npz
       hash: md5
-      md5: 1e2583e66ec848cbd1528af951da0bf9
-      size: 291169
+      md5: 3a314b7029af53c81835602fb9b22f57
+      size: 2249910
     - path: data/processed/scaler.joblib
       hash: md5
-      md5: 6ffd0d267e09490495df58995783d3a0
-      size: 719
+      md5: c1864746d049e4ebb6810bfcbf2d7341
+      size: 831
   train:
     cmd: python -m src.train
     deps:
     - path: data/processed/dataset.npz
       hash: md5
-      md5: 1e2583e66ec848cbd1528af951da0bf9
-      size: 291169
+      md5: 3a314b7029af53c81835602fb9b22f57
+      size: 2249910
     - path: params.yaml
       hash: md5
-      md5: 7c09cd20d6034978f6d49b07e0a774ca
-      size: 561
+      md5: c56d200e40a7f32f432e5394ab16ec6c
+      size: 943
     - path: src/dataset.py
       hash: md5
-      md5: cd250a8a5fdf2db4cd387e0a71ed0ed3
-      size: 451
+      md5: acf6e9bee808c9b35b17af78360e2f97
+      size: 526
     - path: src/model.py
       hash: md5
-      md5: 535387d95e118ee2c9057980ff9cbbc7
-      size: 2347
+      md5: c09d5767e9e80c3e3f13f1469011fea8
+      size: 5179
     - path: src/train.py
       hash: md5
-      md5: d105b695afab23daac2cf77f4324f48f
-      size: 3629
+      md5: 17d907b3c92e2ea20351d879cf54564f
+      size: 12613
     outs:
+    - path: models/best_config.json
+      hash: md5
+      md5: e6cacafdf8467b1e72664ff072386d80
+      size: 271
     - path: models/best_model.pt
       hash: md5
-      md5: 149f90ad8c191035e99c80f892681b31
-      size: 157794
+      md5: f41886be4825038b344794d6a74ede7b
+      size: 137653
+    - path: models/lstm_baseline.pt
+      hash: md5
+      md5: f54017b879471007a56a5f902641f7cd
+      size: 84065
+    - path: reports/baseline_lstm_training_history.csv
+      hash: md5
+      md5: 08f1b12f9234950c504953760c749787
+      size: 534
+    - path: reports/experiments/all_training_history.csv
+      hash: md5
+      md5: f797f54532edc7ebf606077e2a2f505d
+      size: 1031
+    - path: reports/experiments/sweep_results.csv
+      hash: md5
+      md5: 083bbb2d22fe129651d337b1d78bd399
+      size: 205
+    - path: reports/training_history.csv
+      hash: md5
+      md5: f797f54532edc7ebf606077e2a2f505d
+      size: 1031
   evaluate:
     cmd: python -m src.evaluate
     deps:
     - path: data/processed/dataset.npz
       hash: md5
-      md5: 1e2583e66ec848cbd1528af951da0bf9
-      size: 291169
+      md5: 3a314b7029af53c81835602fb9b22f57
+      size: 2249910
+    - path: models/best_config.json
+      hash: md5
+      md5: e6cacafdf8467b1e72664ff072386d80
+      size: 271
     - path: models/best_model.pt
       hash: md5
-      md5: 149f90ad8c191035e99c80f892681b31
-      size: 157794
+      md5: f41886be4825038b344794d6a74ede7b
+      size: 137653
+    - path: models/lstm_baseline.pt
+      hash: md5
+      md5: f54017b879471007a56a5f902641f7cd
+      size: 84065
     - path: params.yaml
       hash: md5
-      md5: 7c09cd20d6034978f6d49b07e0a774ca
-      size: 561
+      md5: c56d200e40a7f32f432e5394ab16ec6c
+      size: 943
+    - path: reports/training_history.csv
+      hash: md5
+      md5: f797f54532edc7ebf606077e2a2f505d
+      size: 1031
     - path: src/evaluate.py
       hash: md5
-      md5: bc94c580c77f8f378e8257e512d77b1f
-      size: 2190
+      md5: b172d2a436fbe8072c660d3d06dc7359
+      size: 24131
     - path: src/model.py
       hash: md5
-      md5: 535387d95e118ee2c9057980ff9cbbc7
-      size: 2347
+      md5: c09d5767e9e80c3e3f13f1469011fea8
+      size: 5179
     outs:
+    - path: reports/best_run_summary.md
+      hash: md5
+      md5: 36f468d40a219a36cec2c6c3c36a11f9
+      size: 1337
     - path: reports/metrics.json
       hash: md5
-      md5: abba154c64b3f26c3e5c300c09c2c528
-      size: 493
+      md5: 0d6ac6f0d0d61f051720189cb99d2aba
+      size: 1357
+    - path: reports/plots/accuracy_metrics.png
+      hash: md5
+      md5: cad28b701eb16bf95c05a894ea9ed450
+      size: 60395
+    - path: reports/plots/actual_vs_predicted.png
+      hash: md5
+      md5: 483d8e60746d3b6bbcb74fb72d045036
+      size: 247133
+    - path: reports/plots/baseline_comparison.png
+      hash: md5
+      md5: 5ebfa05190d2e158624899966a7a01ac
+      size: 33108
+    - path: reports/plots/horizon_metrics.png
+      hash: md5
+      md5: ba3c53d3de876c0358c2311a68bd73a4
+      size: 34331
+    - path: reports/plots/poster_summary.png
+      hash: md5
+      md5: 004c670461c39d6afb890e7ebf469802
+      size: 239469
+    - path: reports/plots/station_metrics.png
+      hash: md5
+      md5: 51972d455850d36d29cc84fbd1045749
+      size: 53227
+    - path: reports/plots/training_loss_curve.png
+      hash: md5
+      md5: c8c3991e1962b6e3f1d0ec7a8a362f05
+      size: 58459
+    - path: reports/predictions/predictions_long.csv
+      hash: md5
+      md5: 4cb4de5bf25437dfb55fbdf14bc9c74f
+      size: 5470091
+    - path: reports/predictions/sample_predictions.csv
+      hash: md5
+      md5: fc268dbe0e362068c4fa8fa9233f8168
+      size: 20832
+    - path: reports/tables/baseline_comparison.csv
+      hash: md5
+      md5: 21805d4c9b9d234b74e16cf810327210
+      size: 331
+    - path: reports/tables/horizon_metrics.csv
+      hash: md5
+      md5: bf1bb0cbffa1d422e4db34e6dafbe3c7
+      size: 568
+    - path: reports/tables/model_horizon_metrics.csv
+      hash: md5
+      md5: a3160216a9f0f196e7f92bd2de333b0b
+      size: 1613
+    - path: reports/tables/station_metrics.csv
+      hash: md5
+      md5: 78ee14e5a09312a177f1995e50f842d4
+      size: 1206
